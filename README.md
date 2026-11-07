@@ -30,23 +30,10 @@ This system implements strict evidence gating, dense vector indexing via FAISS, 
 
 ## 📋 Pipeline Architecture
 
-```text
-User Question
-      │
-      ▼
-FAISS Relevance Gate (L2 ≤ 1.25?)
-      ├───[ > 1.25 ]──► Refuse Query ("No relevant passages")
-      │
-      └───[ ≤ 1.25 ]──► MMR Retrieval (k=4, λ=0.65)
-                              │
-                              ▼
-                      Context + Prompt Assembly
-                      (Strict Evidence & Page Rules)
-                              │
-                              ▼
-                      Gemini 2.5 Flash
-                              │
-                              ▼
-                Grounded Answer with [Page X] Citations
 
 
+## 💻 Quickstart
+#1. Prerequisites & API Keys
+Store your Google AI Studio key in Google Colab Secrets (or set it in your environment):
+Bash
+GEMINI_API_KEY="your-gemini-api-key"
