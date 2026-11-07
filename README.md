@@ -29,11 +29,51 @@ This system implements strict evidence gating, dense vector indexing via FAISS, 
 ---
 
 ## 📋 Pipeline Architecture
+User Question
+│
+▼
+FAISS Relevance Gate (L2 ≤ 1.25?)
+├───[ > 1.25 ]──► Refuse Query ("No relevant passages")
+│
+└───[ ≤ 1.25 ]──► MMR Retrieval (k=4, λ=0.65)
+│
+▼
+Context + Prompt Assembly
+(Strict Evidence & Page Rules)
+│
+▼
+Gemini 2.5 Flash
+│
+▼
+Grounded Answer with [Page X] Citations
 
+---
 
+## 🧪 Evaluation Results
+
+The pipeline includes an automated test harness covering three key evaluation scenarios:
+
+| Test Scenario | Query | Expected Result | Status |
+| :--- | :--- | :--- | :--- |
+| **Technical Architecture** | *Explain scaled dot-product attention and $\sqrt{d_k}$ scaling.* | Grounded technical breakdown citing `[Page 4]` | ✅ **PASS** |
+| **Comparative Analysis** | *How do Transformers differ from RNNs/CNNs in parallelization?* | Architecture comparison citing `[Page 2, 6]` | ✅ **PASS** |
+| **Out-of-Domain Refusal** | *What is the best recipe for baking a chocolate cake?* | Rejection by FAISS gate (L2 = 1.786) | ✅ **PASS** |
+
+---
 
 ## 💻 Quickstart
-#1. Prerequisites & API Keys
+
+### 1. Prerequisites & API Keys
 Store your Google AI Studio key in Google Colab Secrets (or set it in your environment):
-Bash
+```bash
 GEMINI_API_KEY="your-gemini-api-key"
+
+### 2. Install Dependencies
+```bash
+pip install -q \
+  pypdf \
+  sentence-transformers \
+  faiss-cpu \
+  langchain-community \
+  langchain-text-splitters \
+  google-genai
