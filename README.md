@@ -66,9 +66,14 @@ The pipeline includes an automated test harness covering three key evaluation sc
 
 ### 1. Prerequisites & API Keys
 Store your Google AI Studio key in Google Colab Secrets (or set it in your environment):
+
 ```bash
 export GEMINI_API_KEY="your-gemini-api-key"
 ```
+
+### 2. Install Dependencies
+
+```bash
 pip install -q \
   pypdf \
   sentence-transformers \
@@ -76,3 +81,4 @@ pip install -q \
   langchain-community \
   langchain-text-splitters \
   google-genai
+```
